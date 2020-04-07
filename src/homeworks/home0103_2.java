@@ -11,12 +11,12 @@ public class home0103_2 {
         }
 
    public static void main(String[] args){
-       int [] A={1,2,3,4,5};
+       int [] a={1,2,3,4,5};
        int [] B={6,7,8,9,10};
-       new home0103_2().exchange(A,B);
+       new home0103_2().exchange(a,B);
        System.out.println("交换后A的值为");
-       for (int i = 0; i <A .length; i++) {
-           System.out.print(A[i]+"\t");
+       for (int i = 0; i <a .length; i++) {
+           System.out.print(a[i]+"\t");
        }
        System.out.println("\n"+"交换后B的值为");
        for (int j = 0; j <B .length; j++) {
