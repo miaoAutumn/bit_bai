@@ -1,4 +1,8 @@
 package container;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 public class heapDemo {
     //堆的向下调整,以小堆为例
     //size是array哪些元素是有效的堆元素
@@ -18,14 +22,13 @@ public class heapDemo {
                 break;
             }
             //交换当前值和左右子树中的最小值，保证根节点的值小于左右子树
-            else {
                 int temp = array[index];
                 array[index] = array[min];
                 array[min] = temp;
                 //更新当前位置，继续向下调整
                 index = min;
                 left = index * 2 + 1;
-            }
+
         }
 
         }
@@ -37,6 +40,11 @@ public class heapDemo {
         for (int i=(size-1-1)/2;i>=0;i--){
             shifDown(array,size,i);
         }
+        }
+        public static void main(String[] args){
+            int [] array={9,5,2,7,3,6,8};
+            createHeap(array,array.length);
+            System.out.println(Arrays.toString(array));
         }
     }
 

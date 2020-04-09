@@ -40,6 +40,4 @@ public class TreeInterview2 {
        return left+right+mid>0;
 
     }
-
-
 }
