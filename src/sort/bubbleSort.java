@@ -10,6 +10,7 @@ public class bubbleSort {
             //cur>bound为止，因为跑bound趟后，bound前面的元素已经排好序了，不需要再比较
             for (int cur=array.length-1;cur>bound;cur--){
                 //比较相邻两个元素的大小关系
+                //此处条件写成>=则无法保证有序
                 if (array[cur-1]>array[cur]){
                     int temp=array[cur];
                     array[cur]=array[cur-1];

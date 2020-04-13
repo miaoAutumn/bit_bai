@@ -10,14 +10,15 @@ public class heapSort {
         //循环把队顶元素和堆尾元素交换，再删除堆尾元素，再调整堆
         //该元素逻辑上是删除，实际是在数组的末尾
         for (int i = 0; i < array.length - 1; i++) {
-            int heapsize=array.length-1;//堆的元素个数
+            int heapsize=array.length-i;//堆的元素个数
             //因为堆的长度随循环一发生变化，所以每次交换的位置应该是更新后的堆的最后一个元素位置
-            //堆的最后一个元素下标就是length-1-i；
-            swap(array,0,heapsize-i);
+            //堆的最后一个元素下标就是length-i-1；
+            swap(array,0,heapsize-1);
             //再把堆向下调整，重新进入下一次循环
-            //交换完成后要把最后一个元素从堆中删除，数组中元素个数为length-i；
-            // 那么删除后此时堆的元素个数就是length-i-1（实现删除操作）
-            shiftDown(array,array.length-i-1,0);
+            //交换完成后要把最后一个元素从堆中删除，数组中元素个数为heapsize--；
+            heapsize--;
+            // 实现删除操作后，传入新的heapsize；
+            shiftDown(array,heapsize,0);
         }
     }
     //交换堆顶和堆尾元素
