@@ -1,6 +1,6 @@
 package sort;
-
 import java.util.Arrays;
+import java.util.Stack;
 
 public class quickSort {
     public static void quickSort(int[] array){
@@ -21,6 +21,7 @@ public class quickSort {
         //递归比较基准值的左边和基准值的右边
         quickSortHelper(array,left,index-1);
         quickSortHelper(array,index+1,right);
+
     }
    //进行比较交换操作
     private static int partition(int[] array, int left, int right) {
@@ -54,9 +55,40 @@ public class quickSort {
         array[right]=temp;
     }
 
+
+    public static void  quickSortByLoop(int [] array){
+        //借助栈，进行快排的非递归实现
+        Stack<Integer> stack = new Stack<>();
+        //栈里面用来存数组下标。通过下标来表示要处理的区间。
+        //先把右侧下标入栈，再把左侧下标入栈 [0,array.length-1]
+        stack.push(array.length-1);
+        stack.push(0);
+
+        while (!stack.isEmpty()){
+            //先把左侧下标出栈，再把右侧下标出栈
+            int left = stack.pop();
+            int right = stack.pop();
+            if (left>=right){
+                //说明区间中最多只有一个元素，不需要排序
+                continue;
+            }
+            //调用partition方法将区间整理为左侧小于等于基准值右侧大于等于基准值的情况并且要更新基准值
+            int index = partition(array,left,right);
+            //准备处理下一个区间
+            //更新区间,现将左侧区间入栈[left,index-1]
+            stack.push(index-1);
+            stack.push(left);
+            //再将右侧区间入栈[index+1,right]
+            stack.push(right);
+            stack.push(index+1);
+        }
+
+    }
     public static void main(String[] args){
         int []array = {9,4,7,2,5,0,3,6,7,1,8};
-        quickSort(array);
+//        quickSort(array);
+        quickSortByLoop(array);
+
         System.out.println(Arrays.toString(array));
     }
 
