@@ -75,6 +75,8 @@ public class SetMapInterview {
        //最终返回新链表头结点，用旧链表查一下
      return map.get(head);
     }
+
+
      //宝石与石头 力扣771
     public int numJewelsInStones(String J, String S) {
     //遍历宝石，将宝石放到set中去，
