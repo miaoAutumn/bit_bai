@@ -81,7 +81,6 @@ public class SetMapInterview {
     public int numJewelsInStones(String J, String S) {
     //遍历宝石，将宝石放到set中去，
     // 注意，是要看石头里面有多少个宝石，要在石头里找宝石，是将宝石存到set里去
-        //comtains（）方法判断的是set里面是否有y对应的元素
         Set<Character> set = new HashSet<>();
         //toCharArray(),将字符串变为数组
         for (char x:S.toCharArray()){
@@ -90,6 +89,7 @@ public class SetMapInterview {
         //再遍历石头，判断石头是否在set（宝石）中出现，拿着石头跟宝石对比，看出现几次
         int ret=0;
         for (char y:J.toCharArray()){
+            //comtains（）方法判断的是set里面是否有y对应的元素
            if (set.contains(y)){
                ret++;
            }

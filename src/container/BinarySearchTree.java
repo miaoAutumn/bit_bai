@@ -78,32 +78,32 @@ public static class Node{
     //如果树中存在key就删除成功true
     //不存在key就删除失败返回false
     public boolean remove(int key){
-     Node cur = root;
-     Node parent = null;
-     //同上述查找，找到key的位置
-     while (cur != null){
-         if (cur.val < key){
-             //在当前节点的右子树中,记得要更新parent的值
-             parent = cur;
-             cur = cur.right;
-         }
-         else if (cur.val > key ){
-             //在当前节点的左子树中
-             parent = cur;
-             cur = cur.left;
-         }
-         else {
-             //说明cur.val=key，找到该节点了，开始删除操作
-             removeNode(parent,cur);
-             return true;
-         }
-     }
-   //循环结束说明没找到key
+        Node cur = root;
+        Node parent = null;
+        //同上述查找，找到key的位置
+        while (cur != null){
+            if (cur.val < key){
+                //在当前节点的右子树中,记得要更新parent的值
+                parent = cur;
+                cur = cur.right;
+            }
+            else if (cur.val > key ){
+                //在当前节点的左子树中
+                parent = cur;
+                cur = cur.left;
+            }
+            else {
+                //说明cur.val=key，找到该节点了，开始删除操作
+                removeNode(parent,cur);
+                return true;
+            }
+        }
+        //循环结束说明没找到key
         return false;
     }
 
     private void removeNode(Node parent, Node cur) {
-       //进行删除操作，列举多种情况
+        //进行删除操作，列举多种情况
         //1.待删除节点的左子树为空，右子树非空
         if (cur.left==null){
             //1.1待删除节点是根节点
@@ -141,8 +141,8 @@ public static class Node{
             Node goatparent=cur;
             Node scapegoat =cur.right;
             while (scapegoat.left != null){
-               goatparent=scapegoat;
-               scapegoat=scapegoat.left;
+                goatparent=scapegoat;
+                scapegoat=scapegoat.left;
             }
             //循环结束后，scapegoat里面存的就是cur的右子树的左子树的最小值，赋值给待删除节点
             cur.val=goatparent.val;
@@ -158,6 +158,8 @@ public static class Node{
             }
         }
     }
+
+
      //先序遍历
       public static void preOrder(Node root){
        if (root == null){
@@ -203,7 +205,7 @@ public static class Node{
 
 
       System.out.println("找到100这个元素");
-      System.out.println(binarySearchTree.find(100));
+      System.out.println(binarySearchTree.find(100).val);
 
       System.out.println("==================");
       binarySearchTree.remove(5);
