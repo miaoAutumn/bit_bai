@@ -1,9 +1,6 @@
 package container;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class SetMapInterview {
     static class Node {
@@ -97,6 +94,61 @@ public class SetMapInterview {
         return ret;
     }
 
+
+
+    //自制比较器
+      static class MyComparator implements Comparator<String>{
+        //比较字符出现的次数，即比较map的value值。需要将map传过来
+        Map<String,Integer> map = new HashMap <>();
+
+        public MyComparator(Map<String, Integer> map) {
+            this.map = map;
+        }
+
+        @Override
+        public int compare(String o1, String o2) {
+            //通过get（）得到o1，o2两者的vaule值，也就是出现次数
+            int count1 = map.get(o1);
+            int count2 = map.get(o2);
+            if (count1==count2){
+                //说明两者次数相同，则通过字典顺序进行比较
+                //string自身也实现了Comparable，自带字典序的比较功能
+                //此处的compareTo是String自带的默认比较器
+                return o1.compareTo(o2);
+            }
+          //比较器的返回规则是：
+            // o1>o2,返回>0，
+            // o1<o2,返回小于0，
+            // o1=o2，返回0
+            //此处我们要求降序，所以count2-count1；
+            //sort方法就是按照升序排的（小的在前，大的在后）
+            //count1-count2，代表次数少的在前
+            //count2-count1代表次数多的在前
+            //这里重新定义大小前后
+            return count2-count1;
+        }
+    }
+    //前k个高频单词，力扣692
+    public List<String> topKFrequent(String[] words, int k) {
+        //1.将字符串和出现次数存入map中
+        //key表示字符串，value表示出现次数
+        Map<String,Integer> map = new HashMap<>();
+        for (String s:words){
+            //将字符串循环入map，若之前没有存入则返回默认value=0;
+            // 若之前出现过则value+1；
+           Integer index = map.getOrDefault(s,0);
+           map.put(s,index+1);
+        }
+        //2.将刚才统计好的字符串内容放在ArrayList中
+        //keyset（）方法得到的是一个set，set里面存放的是所有kye也就是所有字符串
+        ArrayList<String> arrayList = new ArrayList<>(map.keySet());
+         //3.按照刚才字符串出现的次数，按照降序对字符进行排序
+        // 可以直接使用标准库中的排序操作，但是标准库中的sort是默认按照字符串升序排列的（string的字典顺序）
+        //这里我们要求降序，所以要通过自制比较器来比较
+        Collections.sort(arrayList,new MyComparator(map));
+        //subList（），截取0到k
+      return arrayList.subList(0,k);
+    }
 
 
     public static void main(String[] args){
