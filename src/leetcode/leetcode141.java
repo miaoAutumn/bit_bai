@@ -1,6 +1,6 @@
 package leetcode;
 
-public class leetcode141 {//判断代码是否有环
+public class leetcode141 {//判断链表是否有环
             class ListNode {
      int val;
       ListNode next;

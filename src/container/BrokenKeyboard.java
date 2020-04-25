@@ -24,7 +24,6 @@ public class BrokenKeyboard {
             Set<Character> brokenKeySet = new HashSet<>();
             char [] expect1 = expect.toCharArray();
             for (int j=0;j<expect1.length;j++){
-
                 if (actualSet.contains(expect1[j])){
                     //如果set里面有期望字符，就继续循环，说明字符被输出了，是个好键
                     //不执行任何操作，进入对下一个键的循环判断中
