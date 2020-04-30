@@ -112,7 +112,63 @@ public class StackQueueInterview {
        }
        return sum;
     }
-    
+
+
+    //最近请求次数
+    Queue<Integer> queue = new LinkedList<>();
+    public int ping(int t) {
+    queue.offer(t);
+        //利用队列的先进先出特点,当队首调用时间不在3000以内,就出队列,直到满足要求
+    while (queue.peek() < t -3000){
+       queue.poll();
+    }
+    //队列长度就是3000以内调动的次数
+        return queue.size();
+    }
+
+
+    //约瑟夫问题II
+    public int getResult(int n) {
+        // n代表游戏的人数。请返回最后一个人的编号
+        // write code here
+  //因为涉及到较多的删除插入操作,所以选用链表来做
+        List<Integer> list = new LinkedList<>();
+        //将1-n个元素依次存入链表中,下标从1开始存,为了下标和元素一一对应
+        for (int i = 1;i < n+1 ;i++){
+            list.add(i);
+        }
+        //初始情况下步长为2:12121212....报数
+        int steps = 2;
+        //依次遍历链表中的元素,当数组只剩1个元素时停止遍历
+        // 模拟报数,当其取余步长不为0时,就将其值改为-1.意味着其为要删除元素
+        while (list.size() > 1){
+            for (int i = 1; i < list.size();i++){
+                if (i%steps != 0){
+                    list.set(i,-1);
+                }
+            }
+            //上面的for循环结束代表当前步数模拟报数结束,删除非1元素
+            //在遍历链表并删除元素时,
+            // 迭代器允许遍历过程中删除元素,而for循环是不可以会报错的,所以这里删除元素需要用迭代器
+            Iterator<Integer> iterable = list.iterator();
+            while (iterable.hasNext()){
+                if (iterable.next() == -1){
+                    iterable.remove();
+                }
+            }
+            //调整新的步数123,123,123.....
+           steps = steps+1;
+            //将链表最后一个元素搬移到链表头部,模拟从最后一人开始报数
+              ((LinkedList<Integer>) list).addFirst(list.get( list.size()-1));
+              //删除最后一个元素,因为已经放到头部了
+             list.remove( list.size()-1);
+        }
+        //当循环结束后,剩下的唯一一个1就会被搬移到链表的最前面,返回他即可
+        int num = list.get(1);
+        return num;
+    }
+
+
     public static void main(String[] args){
         String [] test = {"5","2","C","D","+"};
         StackQueueInterview stackQueueInterview = new StackQueueInterview();
