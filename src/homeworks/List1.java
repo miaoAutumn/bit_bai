@@ -132,6 +132,7 @@ public class List1 {
         // flag不一定等于3，例如[1,-1,1,-1,1,-1,1,-1]
         return flag >= 3;
     }
+
 }
 
 

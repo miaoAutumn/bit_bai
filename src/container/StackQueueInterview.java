@@ -169,12 +169,167 @@ public class StackQueueInterview {
     }
 
 
-    public static void main(String[] args){
-        String [] test = {"5","2","C","D","+"};
-        StackQueueInterview stackQueueInterview = new StackQueueInterview();
-        System.out.println( stackQueueInterview.calPoints(test));
+
+    //猫狗收容所
+    public ArrayList<Integer> asylum(int[][] ope) {
+    // list用来存储入收容所的猫狗,res用来存储出收容所的动物
+    List<int[]> list = new LinkedList<>();
+    ArrayList<Integer> res = new ArrayList<>();
+    for (int [] i :ope){
+        //如果i[0]=1,代表动物进收容所
+        if (i[0] == 1){
+         list.add(i);
+        }
+        else if (i[0] == 2) {
+            //说明动物要出收容所,有3种情况
+            if (i[1] == 0) {
+                //采取第一种方式收养,收养最先入收容所的动物不论猫狗
+                //前提收容所中有动物
+                if (!list.isEmpty()) {
+                    int[] animal = list.remove(0);
+                    //animal数组中存的就是第一只动物的信息[入还是出,猫还是狗],
+                    // 此时下标为1的元素就是动物的身份
+                    res.add(animal[1]);
+                }
+            } else {
+                //采取第2,3种收养方式(-1代表收养猫,1代表收养狗)
+                for (int j = 0; j < list.size(); j++) {
+                    //如果收养猫并且收养所中有猫||收养狗并且收容所里面有狗,
+                    // 就将对应的动物出收容所,并添加到res中去
+                    if (i[1] == -1 && list.get(j)[1] < 0 || i[1] == 1 && list.get(j)[1] >0){
+                   //list.get(j)得到的是对应j下标的list一维数组,
+                   // list.get(j)[1],得到的是该一维数组的下标为1的元素
+                       int [] animal = list.remove(j);
+                       res.add(animal[1]);
+                     //已经找到出收容所的动物了,后面的就不需要再判断了
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return res;
+    }
+
+
+   //栈的压入弹出序列
+    public boolean IsPopOrder(int [] pushA,int [] popA) {
+        Stack<Integer> stack = new Stack<>();
+   //先对非法条件进行限制
+        if (pushA.length == 0 || popA.length == 0 || popA.length != pushA.length){
+            return false;
+        }
+        int j = 0;
+        //遍历pushA元素入栈
+        for (int i = 0;i < pushA.length;i++) {
+            stack.push(pushA[i]);
+            //当栈顶元素等于popA中元素时,则出栈
+            //出现了空栈异常,所以要在这里加上空栈判断
+            while ( !stack.isEmpty() && stack.peek() == popA[j] ) {
+                stack.pop();
+                //比较当前栈顶元素和popA的下一个元素
+                j++;
+            }
+        }
+        //上循环结束后,若辅助栈为空,则为true,不为空,则返回false
+        return stack.isEmpty();
+    }
+
+
+    //逆波兰表达式求值 力扣150
+    public int evalRPN(String[] tokens) {
+    Stack<Integer> stack = new Stack<>();
+    Integer t1,t2;
+    //遍历字符串数组中所有字符串,
+    // 如果是运算符则将前两个栈顶元素进行相应运算将结果入栈,如果不是运算符则直接进行压栈操作.
+    // 最后栈顶元素即为所求最终值
+        for (String s:tokens) {
+         if (s .equals( "+")){
+           t1 = stack.pop();
+           t2 = stack.pop();
+           stack.push( t1 + t2);
+         }
+         else if (s.equals( "-")){
+             t1 = stack.pop();
+             t2 = stack.pop();
+             //这里注意栈顶元素是做减数
+             stack.push( t2 - t1);
+         }
+         else if ( s .equals( "*")){
+             t1 = stack.pop();
+             t2 = stack.pop();
+             stack.push( t1 * t2);
+        }
+        else if (s.equals( "/")){
+             t1 = stack.pop();
+             t2 = stack.pop();
+             //这里注意栈顶元素是做除数
+             stack.push( t2 / t1);
+        }
+        //非运算符直接入栈
+        else {
+            //自动拆箱
+            stack.push(Integer.parseInt(s));
+         }
+        }
+        return stack.peek();
+    }
+
+
+    //最后一块石头的重量.使用优先级队列来做
+    public int lastStoneWeight(int[] stones) {
+        //优先级队列默认升序,所以需要重写compare方法
+   Queue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
+
+       @Override
+       public int compare(Integer o1, Integer o2) {
+           //要降序,所以o2 - o1
+           return o2 - o1;
+       }
+   });
+   //遍历数组,将数组元素入队列
+        for (int i= 0;i < stones.length;i++){
+            queue.offer(stones[i]);
+        }
+    //模拟比较过程,当队列中只剩一个元素或0个元素时结束比较
+       while (queue.size()>1){
+          int t1 = queue.poll();//第一大的数
+          int t2 = queue.poll();//第二大的数
+          if (t1 == t2){
+              //t1和t2都不要了,继续查找下两个队首
+              continue;
+          }
+          else {
+              //将他两的差值重新入队列,基于优先级队列的排序性,会重新进行降序排序
+              int diff = Math.abs(t1 - t2);
+              queue.offer(diff);
+          }
+       }
+       return queue.isEmpty()? 0:queue.poll();
+    }
+
+    //字符串中第一个唯一字符
+    public int firstUniqChar(String s) {
+        //k代表字符,V代表出现次数
+   Map< Character,Integer> map = new HashMap<>();
+   int n = s.length();
+   //遍历字符串入map
+   for (int i = 0;i<n;i++) {
+       char c = s.charAt(i);
+       //如果c的值之前没出现过现在是第一次出现,则默认value=0,若之前出现过,则value+1
+       Integer index = map.getOrDefault(c, 0);
+       map.put(c,index + 1);
+   }
+       //遍历map查找第一value为1的值
+       for ( int i = 0;i<s.length();i++){
+           if(map.get(s.charAt(i)) ==1){
+               return i;
+           }
+       }
+
+   return -1;
 
     }
-    
+
 
 }
