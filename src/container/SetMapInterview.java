@@ -151,6 +151,93 @@ public class SetMapInterview {
     }
 
 
+    //求两个数组的交集,力扣394
+    public int[] intersection(int[] nums1, int[] nums2) {
+   Set<Integer> set1 = new HashSet<>();
+   Set<Integer> set2 = new HashSet<>();
+   for (int i:nums1){
+       set1.add(i);
+   }
+   for (int j:nums2){
+       if (set1.contains(j)){
+           set2.add(j);
+       }
+   }
+   int k = 0;
+   int [] result = new int[set2.size()];
+   for (int i :set2){
+       result[k++] = i;
+   }
+   return result;
+    }
+
+
+    //求两个数组的交集1,力扣350
+    public int[] intersect(int[] nums1, int[] nums2) {
+    //将较小的数组放到哈希map中去
+     if (nums1.length > nums2.length ){
+         return intersect(nums2,nums1);
+     }
+     //上述判断完之后num1就是长度小的数组
+        HashMap<Integer,Integer> map = new HashMap<>();
+       for (int i:nums1){
+          Integer index = map.getOrDefault(i,0);
+          map.put(i,index+1);
+       }
+       //在map中查找nums2的元素
+        int k= 0;
+       for (int j:nums2){
+           //如果j存在则返回j的V,如果j不存在则返回0
+           int temp = map.getOrDefault(j,0);
+         if (temp > 0){
+             //说明nums2中的j元素是存在的
+             //将重复元素直接覆盖在nums1上,节省空间
+           nums1[k++] = j;
+           //将map中j元素的个数减一,意思是他已经被放出去一次
+           map.put(j,temp-1);
+         }
+       }
+//       //返回nums1中0-k的元素,不能直接返回num1
+//        int [] result = new int[k];
+//       int w = 0;
+//        for (int t = 0;t<k;t++){
+//          result[w++] = nums1[t];
+//        }
+//       return result;
+        //上方法还是新开辟了空间,如果不想重新开辟空间可以使用库中截取数组的方法
+        return Arrays.copyOf(nums1,k);
+    }
+
+
+    //205.同构字符串
+    public boolean isIsomorphic(String s, String t) {
+    //要判断s映射t,也要判断t映射到s
+        return help(s,t) && help(t,s);
+    }
+    //借助辅助方法来判断映射关系是否成立
+    private boolean help(String s, String t) {
+        HashMap<Character,Character> map = new HashMap<>();
+        //因为s,t的长度是一样的,n等于他们的长度即可
+        int n = s.length();
+        for (int i = 0;i < n;i++){
+            //遍历入map,
+            // 如果s的值已经存在,就判断s是否映射为t,如果s的值不存在,就在map中加入s,t的映射
+            char c1 = s.charAt(i);
+            char c2 = t.charAt(i);
+          if (map.containsKey(c1)){
+              if (map.get(c1) != c2){
+                  //如果c1的映射不是c2那么一定为false
+                  return false;
+              }
+          }
+          else {
+              map.put(c1,c2);
+          }
+        }
+        return true;
+    }
+
+
     public static void main(String[] args){
         SetMapInterview setMapInterview = new SetMapInterview();
         int [] array = {2,7,9,2,9,7,1};
