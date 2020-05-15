@@ -4,6 +4,7 @@ public class SeqList {
 private int [] datas=new int[100];
 private int size=0;//有效元素个数，是长度
     //顺序表的最主要特点是支持随机访问能力，可以高效的按照下标来操作。
+
 public void display(){
     //打印顺序表
     String result="[";
@@ -16,7 +17,8 @@ public void display(){
     result+="]";
     System.out.println(result);
 }
-public void add(int pos,int data){//在pos位置新增元素data
+    //在pos位置新增元素data
+public void add(int pos,int data){
     //判断pos的值是否为有效元素
     //边界判断放在方法里面，不破坏其封装性
     //可选择用double check;
@@ -47,6 +49,7 @@ public void add(int pos,int data){//在pos位置新增元素data
     return;
     }
     }
+
     public boolean contains(int toFind){
     //判断是否包含某个元素。遍历数组，若数组中有元素与toFind相同，则返回true
        // 反之则返回false；
@@ -67,6 +70,8 @@ public void add(int pos,int data){//在pos位置新增元素data
             return -1;
 
         }
+
+
      public Integer getPos(int pos){
     //对pos进行判断，当pos的值为非法时，返回空null
      // 但null为引用类型，int为基础类型，所以应改int为Integer；
@@ -98,10 +103,12 @@ public void add(int pos,int data){//在pos位置新增元素data
              datas[i]=datas[i+1];//搬运
              size--;//删除
              return;
-
-
          }
      }
+     public void clear(){
+    size = 0;
+     }
+
     }
 
 

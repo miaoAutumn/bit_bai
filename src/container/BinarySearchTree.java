@@ -1,5 +1,7 @@
 package container;
 
+import java.util.HashMap;
+
 public class BinarySearchTree {
 public static class Node{
     int val;
@@ -13,7 +15,12 @@ public static class Node{
 
    //当前树的根节点，是一颗空树
    private Node root = null;
-  //在搜索树中查找key的值，如果找到返回key所在的节点，没找到返回null
+
+    /**
+     * 在搜索树中查找key的值，如果找到返回key所在的节点，没找到返回null
+     * @param key
+     * @return
+     */
    public  Node find(int key){
        Node cur = root;
        while (cur != null){
